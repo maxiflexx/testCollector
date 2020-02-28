@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const cryptoCrawler = require('../crawler/crawlerData');
+const cryptoScheduler = require('../crawler/scheduler');
 
-router.get('/get', cryptoCrawler.getData);
+router.get('/get', cryptoScheduler.job);
 
 module.exports = router;
