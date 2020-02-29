@@ -1,6 +1,5 @@
 const axios = require('axios');
 const api = require('../utils/upbitAPI');
-const scheduler = require('node-schedule');
 
 class Crawler {
     // API 데이터를 크롤링한다.

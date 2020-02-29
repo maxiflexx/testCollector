@@ -1,7 +1,6 @@
 const express = require('express');
 const app = new express();
 const router = require('./route/router');
-const api = require('./utils/upbitAPI');
 
 app.use('/crawler', router);
 
