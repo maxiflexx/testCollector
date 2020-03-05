@@ -1,4 +1,3 @@
-
 let schedulerState = {
     active: false,
     count: 0
