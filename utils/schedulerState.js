@@ -17,5 +17,4 @@ let schedulerState = {
     }
 }
 
-
 module.exports = schedulerState;

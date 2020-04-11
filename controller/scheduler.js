@@ -2,12 +2,17 @@ const cryptoCrawler = require('../crawler/crawlerData');
 const Response = require('../utils/response');
 const constants = require('../utils/constants');
 const config = require('../utils/app.config');
+const extractor = require('./extractor');
 let crytoState = require('../utils/schedulerState');
 let schedule = require('node-schedule');
+const Producer = require('./producer');
 
 let RESPONSE_CODE = constants.STATUS_CODE;
 let scheduler = {};
 var url = '';
+
+const kafkaProducer = new Producer();
+kafkaProducer.init();
 
 // 주기적으로 함수를 cryptoCrawler.getData를 호출한다.
 scheduler.start = (req, res) => {
@@ -26,8 +31,18 @@ scheduler.start = (req, res) => {
         schedule.scheduleJob(jobName(req.params.currency), config.job.schedule, async () => {
             let result = await cryptoCrawler.getData(url);
             crytoState[req.params.currency.toUpperCase()].count += 1;
-            console.log(crytoState[req.params.currency.toUpperCase()].count)
-            // 큐에 넣기
+            let message = extractor.extraction(result)
+            let payloads = [{
+                topic: "coin",
+                messages: JSON.stringify(message)
+            }];
+            kafkaProducer.sendMessage(payloads, (err, data) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(data);
+                };
+            });
         });
         return res.status(200).json(new Response(RESPONSE_CODE.SUCCESS, 'running successfully', null));
     } catch(error) {

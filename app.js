@@ -1,6 +1,6 @@
 const express = require('express');
 const app = new express();
-const router = require('./controller/router');
+const router = require('./routes/router');
 const config = require('./utils/app.config');
 
 app.use('/crawler', router);
@@ -15,3 +15,4 @@ process.on('unhandledRejection', (err) => {
 app.listen(config.port, () => {
     console.log('app 실행!');
 });
+
