@@ -1,18 +1,21 @@
+const helmet = require('helmet');
+const bodyParser = require('body-parser');
 const express = require('express');
+const router = require('./routes/index');
+const config = require('./config/app.config')
 const app = new express();
-const router = require('./routes/router');
-const config = require('./utils/app.config');
+
+app.use(helmet());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
+
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
 
 app.use('/crawler', router);
 
-process.on('uncaughtException', (err) => {
-    console.log(err);
-});
-process.on('unhandledRejection', (err) => {
-    console.log(err);
-});
-
 app.listen(config.port, () => {
-    console.log('app 실행!');
+    console.log('Example app listening on port 3000!');
 });
-

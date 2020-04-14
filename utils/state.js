@@ -1,4 +1,4 @@
-let schedulerState = {
+module.exports = {
     BTC: {
         active: false,
         count: 0
@@ -15,6 +15,4 @@ let schedulerState = {
         active: false,
         count: 0
     }
-}
-
-module.exports = schedulerState;
+};
